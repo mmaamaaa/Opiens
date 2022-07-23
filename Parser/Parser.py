@@ -18,6 +18,16 @@ class Parser:
         self.AstTree = ast.parse(self.Source)
         return self.AstTree
 
+    def ReplaceNode(self, Node, NewNode):
+        for i in range(len(self.AstTree.body.body)):
+            pp = self.AstTree.body.body
+            if pp[i] == Node:
+                pp[i] = NewNode
+                break
+
+    def InsertNode(self, Node, Where):
+        self.AstTree.body.body.insert(Where, Node)
+
     def GetAssigns(self):
         Ret = []
         for node in ast.walk(self.AstTree):
@@ -33,3 +43,54 @@ class Parser:
                 Ret.append(node)
 
         return Ret
+
+    def GetAddOps(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.AddOp):
+                Ret.append(node)
+
+        return Ret
+
+    def GetSubOps(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.SubOp):
+                Ret.append(node)
+
+        return Ret
+
+    def GetMultOps(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.MultOp):
+                Ret.append(node)
+
+        return Ret
+
+    def GetDivOps(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.FloatDivOp):
+                Ret.append(node)
+
+        return Ret
+
+    def GetModOps(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.ModOp):
+                Ret.append(node)
+
+        return Ret
+
+    def GetExpoOps(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.ExpoOp):
+                Ret.append(node)
+
+        return Ret
+
+    def GetAstTree(self):
+        return self.AstTree

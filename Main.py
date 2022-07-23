@@ -40,8 +40,10 @@ if __name__ == '__main__':
     Currently it has Low and Medium presets.
     Only supports Lua 5.1
     """
-
+    from luaparser import ast
+    
     Source = Main.ReadFile()
     Options = Main.GetOptions("5.1", "Low")
-    ObfMain(Source, Options).Obfuscate()
-    AstTree = Main().GetAst(Source) # This will be removed later
+    AstTree = ObfMain(Source, Options).Obfuscate()
+    #AstTree = Main().GetAst(Source) # This will be removed later
+    print(ast.to_lua_source(AstTree))
