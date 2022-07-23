@@ -41,9 +41,13 @@ if __name__ == '__main__':
     Only supports Lua 5.1
     """
     from luaparser import ast
-    
+
     Source = Main.ReadFile()
     Options = Main.GetOptions("5.1", "Low")
     AstTree = ObfMain(Source, Options).Obfuscate()
     #AstTree = Main().GetAst(Source) # This will be removed later
-    print(ast.to_lua_source(AstTree))
+    LuaSource = ast.to_lua_source(AstTree)
+    with open("output.lua", 'w') as f:
+        f.write(LuaSource)
+        f.close()
+    print(LuaSource)

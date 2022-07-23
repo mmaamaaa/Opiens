@@ -9,7 +9,7 @@ local oop
     local d = 1 / 2
     local e = 1 % 2
     local f = 1 ^ 2
-    oop = 123
+    oop = #("sdiojgdfuiohg")
 
     """
 

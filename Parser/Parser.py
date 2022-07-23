@@ -25,6 +25,15 @@ class Parser:
                 pp[i] = NewNode
                 break
 
+    def ReplaceValues(self, Node, NewNode):
+        GetAssigns = self.GetAssigns()
+        for i in range(0, len(GetAssigns)):
+            if GetAssigns[i]._name == "Assign":
+                for a in range(0, len(GetAssigns[i].values)):
+                    if GetAssigns[i].values[a] == Node:
+                        self.ReplaceNode(GetAssigns[i], astnodes.Assign(GetAssigns[i].targets, NewNode))
+                
+
     def InsertNode(self, Node, Where):
         self.AstTree.body.body.insert(Where, Node)
 

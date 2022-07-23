@@ -2,6 +2,7 @@
 from Parser.Parser import Parser
 
 from Obfuscator.Locals import Local
+from Obfuscator.MathObfuscator import MathObfuscator
 
 
 class ObfMain:
@@ -21,5 +22,6 @@ class ObfMain:
 
     def Obfuscate(self):
         self.AstTree = Local(self.Parser, self.AstTree).PutLocalOnTop()
+        self.AstTree = MathObfuscator(self.Parser, self.AstTree).ObfuscateSubOps()
         
         return self.AstTree

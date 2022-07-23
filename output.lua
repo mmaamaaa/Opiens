@@ -1,13 +1,13 @@
 local anan, bnaba = nil
 local oop = nil
-local a = nil
+local a, q = nil
 local b = nil
 local c = nil
 local d = nil
 local e = nil
 local f = nil
-a = 1 + 2 + 3
-b = 1 - 4
+a, q = 1 + 2 + 3, 1 + 2 + 3
+b = 68 - 135 + 64
 c = 1 * 2
 d = 1 / 2
 e = 1 % 2
