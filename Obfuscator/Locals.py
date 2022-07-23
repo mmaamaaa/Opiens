@@ -24,7 +24,16 @@ class Local:
                 TempNode = Locals[Idx]
 
                 self.Parser.ReplaceNode(TempNode, astnodes.LocalAssign(TempNode.targets, astnodes.Nil())) # Inserting a Nil node as a value
-                
+        
+        FuncLocals = self.Parser.GetLocalFunctions()
+        for Idx in range(0, len(FuncLocals)):
+            if FuncLocals[Idx].name != []:
+                TempNode = FuncLocals[Idx]
+
+                self.Parser.ReplaceNode(TempNode, astnodes.Assign(TempNode.name.id, astnodes.AnonymousFunction(TempNode.args, TempNode.body)))
+
+                # Inserting a Nil node as a value, because lua-parser writes like "local var = " and thats a syntax error.
+                self.Parser.InsertNode(astnodes.LocalAssign(TempNode.name.id, astnodes.Nil()), Idx) 
 
         return self.Parser.GetAstTree()
 

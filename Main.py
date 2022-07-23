@@ -4,6 +4,7 @@ from Parser.Parser import Parser
 
 from Obfuscator.ObfMain import ObfMain
 
+
 File = "test.lua"
 
 
@@ -41,12 +42,19 @@ if __name__ == '__main__':
     Only supports Lua 5.1
     """
     from luaparser import ast
+    import random
+
+    IntKey = random.randint(10, 15)
+
+    
 
     Source = Main.ReadFile()
     Options = Main.GetOptions("5.1", "Low")
-    AstTree = ObfMain(Source, Options).Obfuscate()
+    AstTree, IntDecryptor = ObfMain(Source, Options, IntKey).Obfuscate()
     #AstTree = Main().GetAst(Source) # This will be removed later
-    LuaSource = ast.to_lua_source(AstTree)
+
+    LuaSource = IntDecryptor + "\n"
+    LuaSource += ast.to_lua_source(AstTree)
     with open("output.lua", 'w') as f:
         f.write(LuaSource)
         f.close()

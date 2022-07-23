@@ -29,9 +29,12 @@ class Parser:
         GetAssigns = self.GetAssigns()
         for i in range(0, len(GetAssigns)):
             if GetAssigns[i]._name == "Assign":
-                for a in range(0, len(GetAssigns[i].values)):
-                    if GetAssigns[i].values[a] == Node:
-                        self.ReplaceNode(GetAssigns[i], astnodes.Assign(GetAssigns[i].targets, NewNode))
+                try:
+                    for a in range(0, len(GetAssigns[i].values)):
+                        if GetAssigns[i].values[a] == Node:
+                            self.ReplaceNode(GetAssigns[i], astnodes.Assign(GetAssigns[i].targets, NewNode))
+                except:
+                    pass
                 
 
     def InsertNode(self, Node, Where):
@@ -49,6 +52,14 @@ class Parser:
         Ret = []
         for node in ast.walk(self.AstTree):
             if isinstance(node, astnodes.LocalAssign):
+                Ret.append(node)
+
+        return Ret
+
+    def GetLocalFunctions(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.LocalFunction):
                 Ret.append(node)
 
         return Ret
