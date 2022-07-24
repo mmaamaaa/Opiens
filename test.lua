@@ -1,15 +1,23 @@
-local anan,bnaba
-local oop
-    local a = 1 + 2 + 3 -- error
-    local pp = 1+2
-    local koo,kpp = 1+2, 1+2 -- error
-    local b = 4 - 1 - 1
-    local kk = 1 - 4
-    local c = 1 * 2
-    local d = 1 / 2
-    local e = 1 % 2
-    local f = 1 ^ 2
-    local ad = 1 + 6
-    oop = 123
-	bnaba = 122
-					print(a, pp, b, kk, c, d, e, f,ad, oop, bnaba)
+
+
+
+local L_1_, L_2_
+local L_3_
+local L_4_ = 3-- + 3 -- error
+local L_5_ = 1 + L_4_
+    --local koo,kpp = 1+2, 1+2 -- error
+local L_6_ = 2
+local L_7_ = -3
+local function L_8_func()
+	local L_14_ = 1
+	local L_15_ = 2
+	return L_14_ + L_15_
+end
+local L_9_ = 2
+local L_10_ = 0.5
+local L_11_ = 1
+local L_12_ = 1
+local L_13_ = 7
+L_3_ = 123
+L_2_ = 122
+print(L_4_, L_5_, L_6_, L_7_, L_9_, L_10_, L_11_, L_12_, L_13_, L_3_, L_2_)

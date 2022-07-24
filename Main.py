@@ -1,4 +1,5 @@
 import sys
+import subprocess
 from Options import OptionsBuilder
 from Parser.Parser import Parser
 
@@ -26,13 +27,22 @@ class Main:
     @staticmethod
     def GetOptions(LuaVersion, Dif):
         return OptionsBuilder().BuildSettings(LuaVersion, Dif)
-    
+
+    @staticmethod
+    def StartOptimizer():
+        try:
+            CC = subprocess.Popen(["node", "beautify.js"], stdout=subprocess.PIPE)
+            CC.communicate()
+            CC.wait()
+            
+            #out, err = p.communicate()
+        except:
+            print("[E] Optimizer failed!")
+            raise OSError
+
     def GetAst(self, Source):
         self.AstTree = Parser(Source).Parse()
         return self.AstTree
-
-
-
 
 
 if __name__ == '__main__':
@@ -45,7 +55,7 @@ if __name__ == '__main__':
     import random
 
     IntKey = random.randint(10, 15)
-
+    Main.StartOptimizer()
     
 
     Source = Main.ReadFile()

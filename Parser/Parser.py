@@ -40,6 +40,8 @@ class Parser:
     def InsertNode(self, Node, Where):
         self.AstTree.body.body.insert(Where, Node)
 
+    
+
     def GetAssigns(self):
         Ret = []
         for node in ast.walk(self.AstTree):
