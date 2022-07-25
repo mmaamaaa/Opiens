@@ -1,7 +1,12 @@
 from luaparser import ast
 
 src = """
-local a = (1-3)^2
+local L_7_ = "zaazzaa"
+local function L_8_func()
+	local L_14_ = "ekmekek"
+	local L_15_ = 2
+	return L_14_ + L_15_
+end
 
     """
 

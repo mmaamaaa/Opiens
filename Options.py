@@ -13,34 +13,38 @@ class OptionsBuilder():
         self.Settings["Low"] = {
             "Name": "Low",
             "Description": "Low Obfuscation",
-            "Options": {
-                "Obfuscate": True,
-                "Vm": False,
-                "MetatableMethods": True,
-                "AntiTamper": False,
-                "AntiDebug": False,
-                "AntiDump": False,
-                "AntiHook": False,
-                "ControlFlow": False,
-                "Lua Version": LuaVersion,
-            }
+            "Encryption": {
+                "String": True,
+                "Integer": True, # This option will not encrypt the integers used in functions because of some optimizations
+                "Function": True,
+            },
+            "Vm": False,
+            "MetatableMethods": True,
+            "AntiTamper": False,
+            "AntiDebug": False,
+            "AntiDump": False,
+            "AntiHook": False,
+            "ControlFlow": False,
+            "Lua Version": LuaVersion,
         }
 
 
         self.Settings["Medium"] = {
             "Name": "Medium",
             "Description": "Medium Obfuscation",
-            "Options": {
-                "Obfuscate": True,
-                "Vm": False,
-                "MetatableMethods": True,
-                "AntiTamper": True,
-                "AntiDebug": True,
-                "AntiDump": True,
-                "AntiHook": False,
-                "ControlFlow": False,
-                "Lua Version": LuaVersion,
-            }
+            "Encryption": {
+                "String": True,
+                "Integer": False, # This option will not encrypt the integers used in functions because of some optimizations
+                "Function": True,
+            },
+            "Vm": False,
+            "MetatableMethods": True,
+            "AntiTamper": True,
+            "AntiDebug": True,
+            "AntiDump": True,
+            "AntiHook": False,
+            "ControlFlow": False,
+            "Lua Version": LuaVersion,
         }
 
         return self.Settings[Dif]

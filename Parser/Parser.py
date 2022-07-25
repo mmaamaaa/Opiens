@@ -35,13 +35,27 @@ class Parser:
                             self.ReplaceNode(GetAssigns[i], astnodes.Assign(GetAssigns[i].targets, NewNode))
                 except:
                     pass
+
+
+    def ReadFunctionInsides(self):
+        Ret = []
+        LocalFuncs = self.GetLocalFunctions()
+        for i in range(0, len(LocalFuncs)):
+            try:
+                for a in range(0, len(LocalFuncs[i].body.body)):
+                    if isinstance(LocalFuncs[i].body.body[a], astnodes.LocalAssign):
+                        if isinstance(LocalFuncs[i].body.body[a].values, astnodes.String):
+                            Ret.append(LocalFuncs[i].body.body[a].values[0]) # i'll fix this later to support multiple locals [ local a,b = "hello", "world" ]
+            except:
+                pass
+
+        return Ret
                 
 
     def InsertNode(self, Node, Where):
         self.AstTree.body.body.insert(Where, Node)
 
     
-
     def GetAssigns(self):
         Ret = []
         for node in ast.walk(self.AstTree):
@@ -62,6 +76,14 @@ class Parser:
         Ret = []
         for node in ast.walk(self.AstTree):
             if isinstance(node, astnodes.LocalFunction):
+                Ret.append(node)
+
+        return Ret
+
+    def GetStrings(self):
+        Ret = []
+        for node in ast.walk(self.AstTree):
+            if isinstance(node, astnodes.String):
                 Ret.append(node)
 
         return Ret

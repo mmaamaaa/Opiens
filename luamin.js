@@ -5261,7 +5261,7 @@ luaminp.Beautify = function(scr, options) {
     FormatAst(ast)
 
     let result = PrintAst(ast)
-    result = `${watermark}\n\n${result}`
+    result = `${result}`
 
     return result
 }
