@@ -60,7 +60,7 @@ class MathEncrypter:
 
         for Idx in range(0, len(NumberNode)):
             
-            Arguments = [astnodes.Number(Utils.xor(NumberNode[Idx].n, self.IntKey))]
+            Arguments = [astnodes.Number(NumberNode[Idx].n ^ self.IntKey)]
 
             ch = random.randint(0,2)
             while not ch: # Adding random arguments to the function

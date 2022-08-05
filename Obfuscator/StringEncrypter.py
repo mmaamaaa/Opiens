@@ -31,7 +31,7 @@ class StringEncrypter:
             PTBytes.append(ord(a.encode("utf-8")))
 
         for a in range(len(PTBytes)):
-            PTBytes[a] = Utils.xor(PTBytes[a], key)
+            PTBytes[a] = PTBytes[a] ^ key
 
         return base64.b32encode(bytes(PTBytes)).decode('utf-8')
 
