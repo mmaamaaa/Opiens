@@ -5,6 +5,9 @@ from Parser.Parser import Parser
 from Obfuscator.Locals import Local
 from Obfuscator.MathEncrypter import MathEncrypter
 
+from Obfuscator.Vm.vMain import MainVm
+from Obfuscator.Vm.Compiler import Compiler
+
 from luaparser import ast
 
 import random
@@ -46,5 +49,30 @@ class ObfMain:
             self.Parser = Parser(self.Source)
             self.AstTree = self.Parser.Parse()
 
-        self.Source = self.IntDecryptor + self.StrDecryptor + self.Source 
+        
+        self.Source = self.IntDecryptor + self.StrDecryptor + self.Source
+        
+        if self.Options["Vm"]:
+            OutputName = "asd.lua"
+            with open(OutputName, 'w') as f:
+                f.write(self.Source)
+                f.close()
+
+            LuaC_Output = "aaa.out"
+            Compiler.Compile(OutputName, FileName = LuaC_Output)
+
+            BytecodeFile = open(LuaC_Output, "rb") # Read as binary
+            bytecode = BytecodeFile.read()
+            BytecodeFile.close()
+
+            import os
+            if os.path.exists(LuaC_Output):
+                os.remove(LuaC_Output)
+            else:
+                raise Exception("The file (" + LuaC_Output + ") does not exist!")
+
+            LuaChunk = MainVm(bytecode).Deserialize()
+
+
+
         return self.Source

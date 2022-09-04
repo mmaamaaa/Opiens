@@ -5222,30 +5222,9 @@ function UglifyVariables(globalScope, rootScope, renameGlobals) {
 
 // hi
 
-let watermark = "" // i deleted this because it was annoying when cheking the inpur file it writes over and over again
+let watermark = "" // i deleted this because it was annoying when checking the input file, it writes over and over again
 
 let luaminp = {}
-
-luaminp.Minify = function(scr, options) {
-
-    let ast = CreateLuaParser(scr)
-    let [glb, root] = AddVariableInfo(ast)
-
-    if (options.RenameVariables == true) {
-        MinifyVariables_2(glb, root, options.RenameGlobals)
-    }
-
-    if (options.SolveMath == true) {
-        SolveMath(ast) // oboy
-    }
-
-    StripAst(ast)
-
-    let result = PrintAst(ast)
-    result = `${watermark}\n\n${result}`
-
-    return result
-}
 
 luaminp.Beautify = function(scr, options) {
     let ast = CreateLuaParser(scr)
@@ -5266,65 +5245,10 @@ luaminp.Beautify = function(scr, options) {
     return result
 }
 
-luaminp.Uglify = function(src1, options) {
-    print("Sorry, but this is incredibly slow for large scripts.")
-
-    let ast1 = CreateLuaParser(src1)
-    let [glb1] = AddVariableInfo(ast1)
-
-    let lol = []
-    let alreadyAdded = []
-
-    glb1.forEach((v) => {
-        if (alreadyAdded[v.Name]) {
-            /*v.RenameList.forEach((a, b) => {
-                alreadyAdded[v.Name].RenameList.push(a)
-                v.RenameList[b] = null
-            })*/
-            return
-        }
-        alreadyAdded[v.Name] = v
-
-        ast1.SemicolonList = [{type: "Symbol", Source: ";", LeadingWhite: ""}].concat(ast1.SemicolonList)
-        lol = [CreateLuaParser(`local ${v.Name} = getfenv()['${v.Name}']`).StatementList[0]].concat(lol)
-
-        //v.AssignedTo = true
-        /*v.RenameList.push((a) => {
-            localstat.VarList[0].Source = a
-        })*/
-    })
-    glb1 = null
-    alreadyAdded = null
-
-    shuffle(lol)
-    lol.forEach((v, i) => {
-        ast1.StatementList = [v].concat(ast1.StatementList)
-        lol[i] = null
-    })
-    lol = null
-
-    let src2 = PrintAst(ast1)
-    ast1 = null
-
-    let ast2 = CreateLuaParser(src2)
-    Uglify(ast2)
-    
-    StripAst(ast2)
-
-    let [ glb2, root2 ] = AddVariableInfo(ast2)
-    UglifyVariables(glb2, root2, options.RenameGlobals) // This is so fucking slow omg
-
-    let result = PrintAst(ast2)
-    result = `${watermark}\n\n${result}`
-
-    return result
-}
 
 try {
     if (module != null && module.exports != null) {
         module.exports.Beautify = luaminp.Beautify
-        module.exports.Minify = luaminp.Minify
-        module.exports.Uglify = luaminp.Uglify
     }
 } catch(err) {/*idontcareboutthis*/}
 

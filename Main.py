@@ -37,8 +37,7 @@ class Main:
             
             #out, err = p.communicate()
         except:
-            print("[E] Optimizer failed!")
-            raise OSError
+            raise Exception("Optimizer failed!")
 
     def GetAst(self, Source):
         self.AstTree = Parser(Source).Parse()
@@ -57,7 +56,7 @@ if __name__ == '__main__':
     Main.StartOptimizer()
     
     Source = Main.ReadFile()
-    Options = Main.GetOptions("5.1", "Low")
+    Options = Main.GetOptions("5.1", "Medium")
     OutSource = ObfMain(Source, Options).Obfuscate()
     #AstTree = Main().GetAst(Source) # This will be removed later
 

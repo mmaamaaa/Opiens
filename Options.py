@@ -37,7 +37,7 @@ class OptionsBuilder():
                 "Integer": False, # This option will not encrypt the integers used in functions because of some optimizations
                 "Function": True,
             },
-            "Vm": False,
+            "Vm": True,
             "MetatableMethods": True,
             "AntiTamper": True,
             "AntiDebug": True,
