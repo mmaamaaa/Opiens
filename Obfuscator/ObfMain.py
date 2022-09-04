@@ -51,7 +51,7 @@ class ObfMain:
 
         
         self.Source = self.IntDecryptor + self.StrDecryptor + self.Source
-        
+
         if self.Options["Vm"]:
             OutputName = "asd.lua"
             with open(OutputName, 'w') as f:
@@ -66,10 +66,11 @@ class ObfMain:
             BytecodeFile.close()
 
             import os
-            if os.path.exists(LuaC_Output):
-                os.remove(LuaC_Output)
-            else:
-                raise Exception("The file (" + LuaC_Output + ") does not exist!")
+            if os.path.exists(LuaC_Output): os.remove(LuaC_Output) 
+            else: raise Exception("The file (" + LuaC_Output + ") does not exist!")
+
+            if os.path.exists(OutputName): os.remove(OutputName)
+            else: raise Exception("The file (" + OutputName + ") does not exist!")
 
             LuaChunk = MainVm(bytecode).Deserialize()
 
