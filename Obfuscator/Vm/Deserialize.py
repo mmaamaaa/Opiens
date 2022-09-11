@@ -132,7 +132,7 @@ class Deserializer:
         c.__setitem__("Constants", self.DecodeConstants())
         c.__setitem__("Prototypes", self.DecodePrototypes())
 
-        for Idx in range(len(c["Instructions"])): # Constant Refs. i think its not important so its not implemented
+        for Idx in range(len(c["Instructions"])): # Constant Refs.
             Instt = c["Instructions"][Idx]
             Opco = Instt["Opcode"]
 
