@@ -1,3 +1,3 @@
-class ControlFlow:
+class Rewriter:
     def __init__(self):
         pass

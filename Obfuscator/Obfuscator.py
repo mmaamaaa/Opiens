@@ -6,14 +6,16 @@ from Obfuscator.Locals import Local
 from Obfuscator.MathEncrypter import MathEncrypter
 
 from Obfuscator.Vm.vMain import MainVm
-from Obfuscator.Vm.Compiler import Compiler
+from Obfuscator.Vm.Bytecode.Compiler import Compiler
+
+from Obfuscator.Rewriter.Flattener import Flattener
 
 from luaparser import ast
 
 import random
 
 
-class ObfMain:
+class Obfuscator:
     """
     The is the Main obfuscator class.
     It has the following functions:
@@ -37,12 +39,14 @@ class ObfMain:
 
     def Obfuscate(self):
         self.AstTree = Local(self.Parser, self.AstTree).PutLocalOnTop()
+        self.Parser.AstTree = self.AstTree
 
         if self.Options["Encryption"]["Integer"]:
             # Replacing the AstTree with the new one
             self.AstTree, self.IntDecryptor = MathEncrypter(self.Parser, self.IntKey).EncryptMath()
+            self.Source = ast.to_lua_source(self.AstTree)
             
-        self.Source = ast.to_lua_source(self.AstTree)
+        
         if self.Options["Encryption"]["String"]:
             self.Source, self.StrDecryptor = StringEncrypter(self.Source ,self.Parser, self.StrKey).EncryptStrings()
             # Parsing the new source to get the new AST
@@ -72,7 +76,22 @@ class ObfMain:
             if os.path.exists(OutputName): os.remove(OutputName)
             else: raise Exception("The file (" + OutputName + ") does not exist!")
 
-            LuaChunk = MainVm(bytecode).Deserialize()
+
+            VMUtilities = MainVm(bytecode)
+            LChunk = VMUtilities.Deserialize()
+
+            SerializedChunk = VMUtilities.Serialize()
+
+
+            # Flattener Test. This will be removed later
+            FlattenedAST = Flattener(self.Parser, self.AstTree).FlattenCF()
+            newcode = ast.to_lua_source(FlattenedAST)
+            with open("CFF_TEST.lua", 'w') as f:
+                f.write(newcode)
+                f.close()
+
+
+            print("Debug Breakpoint")
 
 
 

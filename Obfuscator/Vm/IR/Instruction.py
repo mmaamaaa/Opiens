@@ -1,4 +1,4 @@
-from Obfuscator.Vm.IR.Enums import OPNAME, INSTRUCTIONMAP
+from Obfuscator.Vm.IR.Enums import OPCODE, INSTRUCTIONMAP
 
 class Instruction:
     Name   = None
@@ -15,7 +15,7 @@ class Instruction:
     def __init__(self, C, Opc):
         self.Chunk  = C
         self.Opcode = Opc
-        self.Name   = OPNAME[Opc]
+        self.Name   = OPCODE[Opc]
         self.Type   = INSTRUCTIONMAP[self.Name]
 
     def __getitem__(self, key):

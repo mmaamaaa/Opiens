@@ -3,7 +3,7 @@ import subprocess
 from Options import OptionsBuilder
 from Parser.Parser import Parser
 
-from Obfuscator.ObfMain import ObfMain
+from Obfuscator.Obfuscator import Obfuscator
 
 
 File = "test.lua"
@@ -53,11 +53,11 @@ if __name__ == '__main__':
     from luaparser import ast
 
 
-    Main.StartOptimizer()
+    #Main.StartOptimizer()
     
     Source = Main.ReadFile()
     Options = Main.GetOptions("5.1", "Medium")
-    OutSource = ObfMain(Source, Options).Obfuscate()
+    OutSource = Obfuscator(Source, Options).Obfuscate()
     #AstTree = Main().GetAst(Source) # This will be removed later
 
     with open("output.lua", 'w') as f:

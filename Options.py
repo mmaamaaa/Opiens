@@ -33,9 +33,9 @@ class OptionsBuilder():
             "Name": "Medium",
             "Description": "Medium Obfuscation",
             "Encryption": {
-                "String": True,
+                "String": False,
                 "Integer": False, # This option will not encrypt the integers used in functions because of some optimizations
-                "Function": True,
+                "Function": False,
             },
             "Vm": True,
             "MetatableMethods": True,

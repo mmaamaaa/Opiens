@@ -1,12 +1,12 @@
 
 
 from Utils import *
-from Vm.IR.Enums import OPNAME
+from Obfuscator.Vm.IR.Enums import OPNUM
 
 import struct
 
 
-class Reasializer:
+class Serializer:
     def __init__(self, Chunk, Settings):
         self.Chunk = Chunk
         self.Settings = Settings
@@ -42,7 +42,29 @@ class Reasializer:
 
         self.WriteInt32(SizeI)
         for Idx in range(0, SizeI):
-            pass
+
+            instr = Chunk["Instructions"][Idx]
+
+            Data1 = 0
+            Data2 = 0
+            
+            if instr.Type == "ABC":
+                pass
+                # Implement bit shuffling
+            elif instr.Type == "ABx":
+                # Implement bit shuffling
+                pass
+            elif instr.Type == "AsBx":
+                # Implement bit shuffling
+                pass
+
+
+            print(Data1)
+            print(Data2)
+
+            #self.WriteByte(instr.Opcode) # Implement opcode shuffling
+            self.WriteInt32(Data1)
+            self.WriteInt32(Data2)
 
 
     def WriteConstants(self, Chunk):
@@ -50,7 +72,23 @@ class Reasializer:
         self.WriteInt32(SizeC)
 
         for Idx in range(0, SizeC):
-            pass
+            Const = Chunk.Constants[Idx]
+
+            # Implement Constant types shuffling
+            if Const.Type == "Nil":
+                self.WriteByte(0)
+            elif Const.Type == "Boolean":
+                self.WriteByte(31)
+                if Const.Data:
+                    self.WriteByte(1)
+                else:
+                    self.WriteByte(0)
+            elif Const.Type == "Number":
+                self.WriteByte(32)
+                self.WriteDouble(Const.Data)
+            elif Const.Type == "String":
+                self.WriteByte(33)
+                self.WriteString(Const.Data)
 
 
     def WritePrototypes(self, Chunk):
@@ -62,14 +100,14 @@ class Reasializer:
 
     
     def WriteChunk(self, Chunk):
-        self.WriteByte(Chunk.numUpvals)
-        self.WriteByte(Chunk.numParams)
+        self.WriteByte(Chunk.UpvalCount)
+        self.WriteByte(Chunk.ParameterCount)
         self.WriteConstants(Chunk)
         self.WriteInstructions(Chunk)
         self.WritePrototypes(Chunk)
 
 
-    def StartReserializer(self):
+    def RunSerializer(self):
 
         self.WriteChunk(self.Chunk)
 

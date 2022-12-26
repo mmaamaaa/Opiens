@@ -1,4 +1,5 @@
 
+import random
 
 class Utils:
     def xor(a, b):
@@ -24,4 +25,9 @@ class Utils:
             p = p * 2
         return c
 
+    def ShuffleArray(array):
+        for i in range(len(array)):
+            j = random.randint(0, len(array) - 1)
+            array[i], array[j] = array[j], array[i]
+        return array
         
