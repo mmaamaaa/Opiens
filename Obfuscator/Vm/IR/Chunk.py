@@ -7,13 +7,6 @@ class Chunk:
     VarargCount     = 0
     StackSize       = 0
 
-    Upvalues        = []
-    Instructions    = []
-    Constants       = []
-    Prototypes      = []
-    ConstantRef     = []
-
-
     def __init__(self, c):
         self.Name           = c["Name"]
         self.Line           = c["Line"]
@@ -22,6 +15,12 @@ class Chunk:
         self.ParameterCount = c["ParameterCount"]
         self.VarargCount    = c["VarargCount"]
         self.StackSize      = c["StackSize"]
+        
+        self.Upvalues       = []
+        self.Instructions   = []
+        self.Constants      = []
+        self.Prototypes     = []
+        self.ConstantRef    = []
 
     def SetInstructionsLine(self, num, key):
         self.Instructions[num]["Line"] = key
