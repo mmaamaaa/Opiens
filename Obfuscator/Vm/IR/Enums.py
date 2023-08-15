@@ -1,164 +1,102 @@
 
-OPCODE = [
-    "Move",
-    "Loadk",
-    "LoadBool",
-    "LoadNil",
-    "GetUpval",
-    "GetGlobal",
-    "GetTable",
-    "SetGlobal",
-    "SetUpval",
-    "SetTable",
-    "NewTable",
-    "Self",
-    "Add",
-    "Sub",
-    "Mul",
-    "Div",
-    "Mod",
-    "Pow",
-    "Unm",
-    "Not",
-    "Len",
-    "Concat",
-    "Jmp",
-    "Eq",
-    "Lt",
-    "Le",
-    "Test",
-    "TestSet",
-    "Call",
-    "TailCall",
-    "Return",
-    "ForLoop",
-    "ForPrep",
-    "TForLoop",
-    "SetList",
-    "Close",
-    "Closure",
-    "VarArg"
-]
+from enum import Enum
 
-OPNUM = {
-    "Move": 0,
-    "Loadk": 1,
-    "LoadBool": 2,
-    "LoadNil": 3,
-    "GetUpval": 4,
-    "GetGlobal": 5,
-    "GetTable": 6,
-    "SetGlobal": 7,
-    "SetUpval": 8,
-    "SetTable": 9,
-    "NewTable": 10,
-    "Self": 11,
-    "Add": 12,
-    "Sub": 13,
-    "Mul": 14,
-    "Div": 15,
-    "Mod": 16,
-    "Pow": 17,
-    "Unm": 18,
-    "Not": 19,
-    "Len": 20,
-    "Concat": 21,
-    "Jmp": 22,
-    "Eq": 23,
-    "Lt": 24,
-    "Le": 25,
-    "Test": 26,
-    "TestSet": 27,
-    "Call": 28,
-    "TailCall": 29,
-    "Return": 30,
-    "ForLoop": 31,
-    "ForPrep": 32,
-    "TForLoop": 33,
-    "SetList": 34,
-    "Close": 35,
-    "Closure": 36,
-    "VarArg": 37
-}
+class Opcode(Enum):
+    Move = 0
+    Loadk = 1
+    LoadBool = 2
+    LoadNil = 3
+    GetUpval = 4
+    GetGlobal = 5
+    GetTable = 6
+    SetGlobal = 7
+    SetUpval = 8
+    SetTable = 9
+    NewTable = 10
+    Self = 11
+    Add = 12
+    Sub = 13
+    Mul = 14
+    Div = 15
+    Mod = 16
+    Pow = 17
+    Unm = 18
+    Not = 19
+    Len = 20
+    Concat = 21
+    Jmp = 22
+    Eq = 23
+    Lt = 24
+    Le = 25
+    Test = 26
+    TestSet = 27
+    Call = 28
+    TailCall = 29
+    Return = 30
+    ForLoop = 31
+    ForPrep = 32
+    TForLoop = 33
+    SetList = 34
+    Close = 35
+    Closure = 36
+    VarArg = 37
 
-OPMODE = [
-    {"B": "OpArgR", "C": "OpArgN"},#0
-    {"B": "OpArgK", "C": "OpArgN"},#1
-    {"B": "OpArgU", "C": "OpArgU"},#2
-    {"B": "OpArgR", "C": "OpArgN"},#3
-    {"B": "OpArgU", "C": "OpArgN"},#4
-    {"B": "OpArgK", "C": "OpArgN"},#5
-    {"B": "OpArgR", "C": "OpArgK"},#6
-    {"B": "OpArgK", "C": "OpArgN"},#7
-    {"B": "OpArgU", "C": "OpArgN"},#8
-    {"B": "OpArgK", "C": "OpArgK"},#9
-    {"B": "OpArgU", "C": "OpArgU"},#10
-    {"B": "OpArgR", "C": "OpArgK"},#11
-    {"B": "OpArgK", "C": "OpArgK"},#12
-    {"B": "OpArgK", "C": "OpArgK"},#13
-    {"B": "OpArgK", "C": "OpArgK"},#14
-    {"B": "OpArgK", "C": "OpArgK"},#15
-    {"B": "OpArgK", "C": "OpArgK"},#16
-    {"B": "OpArgK", "C": "OpArgK"},#17
-    {"B": "OpArgR", "C": "OpArgN"},#18
-    {"B": "OpArgR", "C": "OpArgN"},#19
-    {"B": "OpArgR", "C": "OpArgN"},#20
-    {"B": "OpArgR", "C": "OpArgR"},#21
-    {"B": "OpArgR", "C": "OpArgN"},#22
-    {"B": "OpArgK", "C": "OpArgK"},#23
-    {"B": "OpArgK", "C": "OpArgK"},#24
-    {"B": "OpArgK", "C": "OpArgK"},#25
-    {"B": "OpArgR", "C": "OpArgU"},#26
-    {"B": "OpArgR", "C": "OpArgU"},#27
-    {"B": "OpArgU", "C": "OpArgU"},#28
-    {"B": "OpArgU", "C": "OpArgU"},#29
-    {"B": "OpArgU", "C": "OpArgN"},#30
-    {"B": "OpArgR", "C": "OpArgN"},#31
-    {"B": "OpArgR", "C": "OpArgN"},#32
-    {"B": "OpArgN", "C": "OpArgU"},#33
-    {"B": "OpArgU", "C": "OpArgU"},#34
-    {"B": "OpArgN", "C": "OpArgN"},#35
-    {"B": "OpArgU", "C": "OpArgN"},#36
-    {"B": "OpArgU", "C": "OpArgN"},#37
-]
+class InstrucitonType(Enum):
+    ABC = 0
+    ABx = 1
+    AsBx = 2
+    Ax = 3
+    Data = 4
+
+
+class InstructionData(Enum):
+    ABC = 0
+    ABx = 1
+    AsBx = 2
+
+    DATA = 3
+    NONE = 4
+
+    # ----
+    MUTATED = 5
 
 INSTRUCTIONMAP = {
-    "Move":       "ABC",
-    "Loadk":      "ABx",
-    "LoadBool":   "ABC",
-    "LoadNil":    "ABC",
-    "GetUpval":   "ABC",
-    "GetGlobal":  "ABx",
-    "GetTable":   "ABC",
-    "SetGlobal":  "ABx",
-    "SetUpval":   "ABC",
-    "SetTable":   "ABC",
-    "NewTable":   "ABC",
-    "Self":       "ABC",
-    "Add":        "ABC",
-    "Sub":        "ABC",
-    "Mul":        "ABC",
-    "Div":        "ABC",
-    "Mod":        "ABC",
-    "Pow":        "ABC",
-    "Unm":        "ABC",
-    "Not":        "ABC",
-    "Len":        "ABC",
-    "Concat":     "ABC",
-    "Jmp":        "AsBx",
-    "Eq":         "ABC",
-    "Lt":         "ABC",
-    "Le":         "ABC",
-    "Test":       "ABC",
-    "TestSet":    "ABC",
-    "Call":       "ABC",
-    "TailCall":   "ABC",
-    "Return":     "ABC",
-    "ForLoop":    "AsBx",
-    "ForPrep":    "AsBx",
-    "TForLoop":   "ABC",
-    "SetList":    "ABC",
-    "Close":      "ABC",
-    "Closure":    "ABx",
-    "Vararg":     "ABC"
+    Opcode.Move:       InstructionData.ABC,
+    Opcode.Loadk:      InstructionData.ABx,
+    Opcode.LoadBool:   InstructionData.ABC,
+    Opcode.LoadNil:    InstructionData.ABC,
+    Opcode.GetUpval:   InstructionData.ABC,
+    Opcode.GetGlobal:  InstructionData.ABx,
+    Opcode.GetTable:   InstructionData.ABC,
+    Opcode.SetGlobal:  InstructionData.ABx,
+    Opcode.SetUpval:   InstructionData.ABC,
+    Opcode.SetTable:   InstructionData.ABC,
+    Opcode.NewTable:   InstructionData.ABC,
+    Opcode.Self:       InstructionData.ABC,
+    Opcode.Add:        InstructionData.ABC,
+    Opcode.Sub:        InstructionData.ABC,
+    Opcode.Mul:        InstructionData.ABC,
+    Opcode.Div:        InstructionData.ABC,
+    Opcode.Mod:        InstructionData.ABC,
+    Opcode.Pow:        InstructionData.ABC,
+    Opcode.Unm:        InstructionData.ABC,
+    Opcode.Not:        InstructionData.ABC,
+    Opcode.Len:        InstructionData.ABC,
+    Opcode.Concat:     InstructionData.ABC,
+    Opcode.Jmp:        InstructionData.AsBx,
+    Opcode.Eq:         InstructionData.ABC,
+    Opcode.Lt:         InstructionData.ABC,
+    Opcode.Le:         InstructionData.ABC,
+    Opcode.Test:       InstructionData.ABC,
+    Opcode.TestSet:    InstructionData.ABC,
+    Opcode.Call:       InstructionData.ABC,
+    Opcode.TailCall:   InstructionData.ABC,
+    Opcode.Return:     InstructionData.ABC,
+    Opcode.ForLoop:    InstructionData.AsBx,
+    Opcode.ForPrep:    InstructionData.AsBx,
+    Opcode.TForLoop:   InstructionData.ABC,
+    Opcode.SetList:    InstructionData.ABC,
+    Opcode.Close:      InstructionData.ABC,
+    Opcode.Closure:    InstructionData.ABx,
+    Opcode.VarArg:     InstructionData.ABC
 }

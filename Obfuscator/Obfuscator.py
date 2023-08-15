@@ -5,7 +5,7 @@ from Parser.Parser import Parser
 from Obfuscator.Locals import Local
 from Obfuscator.MathEncrypter import MathEncrypter
 
-from Obfuscator.Vm.vMain import MainVm
+from Obfuscator.Vm.BytecodeRW import BytecodeUtilities
 from Obfuscator.Vm.Bytecode.Compiler import Compiler
 
 from Obfuscator.Rewriter.Flattener import Flattener
@@ -77,19 +77,27 @@ class Obfuscator:
             else: raise Exception("The file (" + OutputName + ") does not exist!")
 
 
-            VMUtilities = MainVm(bytecode)
+            VMUtilities = BytecodeUtilities(bytecode)
             LChunk = VMUtilities.Deserialize()
 
             SerializedChunk = VMUtilities.Serialize()
+            ObfuscatorBytecode = "\\"
+            ObfuscatorBytecode += '\\'.join(map(str, SerializedChunk))
+
+            # Writing the serialized chunk to a file
+            with open("SerializedChunk.out", 'w') as f:
+                f.write(ObfuscatorBytecode)
+                f.close()
 
 
+            """
             # Flattener Test. This will be removed later
             FlattenedAST = Flattener(self.Parser, self.AstTree).FlattenCF()
             newcode = ast.to_lua_source(FlattenedAST)
             with open("CFF_TEST.lua", 'w') as f:
                 f.write(newcode)
                 f.close()
-
+            """
 
             print("Debug Breakpoint")
 

@@ -11,6 +11,17 @@ while ELV_CF_KEY ~= 9 do
             print("Hello World!")
         end
     end
+    if 6 == ELV_CF_KEY then
+        ELV_CF_KEY = 7
+        a = function()
+            local localtext = 1
+            return localtext
+        end
+    end
+    if 1 == ELV_CF_KEY then
+        ELV_CF_KEY = 2
+        e = 1
+    end
     if 8 == ELV_CF_KEY then
         ELV_CF_KEY = 9
         x()
@@ -24,29 +35,18 @@ while ELV_CF_KEY ~= 9 do
             print(i)
         end
     end
-    if 7 == ELV_CF_KEY then
-        ELV_CF_KEY = 8
-        print(a())
-    end
     if 3 == ELV_CF_KEY then
         ELV_CF_KEY = 4
         if t == e then
             print("b is equal to a")
         end
     end
-    if 6 == ELV_CF_KEY then
-        ELV_CF_KEY = 7
-        a = function()
-            local localtext = 1
-            return localtext
-        end
-    end
-    if 1 == ELV_CF_KEY then
-        ELV_CF_KEY = 2
-        e = 1
-    end
     if 2 == ELV_CF_KEY then
         ELV_CF_KEY = 3
         t = 2
+    end
+    if 7 == ELV_CF_KEY then
+        ELV_CF_KEY = 8
+        print(a())
     end
 end

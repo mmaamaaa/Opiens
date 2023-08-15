@@ -1,7 +1,7 @@
 from Obfuscator.Vm.ObfuscationSettings import ObfuscationSettings
 
 
-class MainVm:
+class BytecodeUtilities:
     def __init__(self, Bytecode):
         self.ObfSettings = ObfuscationSettings().BuildSettings()
         self.Bytecode = Bytecode

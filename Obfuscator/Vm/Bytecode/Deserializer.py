@@ -1,6 +1,6 @@
 import struct
 
-from Obfuscator.Vm.IR.Enums import OPMODE
+from Obfuscator.Vm.IR.Enums import Opcode, INSTRUCTIONMAP, InstructionData
 
 from Obfuscator.Vm.IR.Chunk import Chunk
 from Obfuscator.Vm.IR.Instruction import Instruction
@@ -73,13 +73,14 @@ class Deserializer:
             #print("InstrType: ", InstrType)
 
             # Finding the instructions
-            if InstrType == "ABC":
+            if InstrType == InstructionData.ABC:
                 i.__setitem__("B", (code >> 6 + 8 + 9) & 0x1FF)
                 i.__setitem__("C", (code >> 6 + 8) & 0x1FF)
-            elif InstrType == "ABx":
+            elif InstrType == InstructionData.ABx:
                 i.__setitem__("B", (code >> 6 + 8) & 0x3FFFF)
-            elif InstrType == "AsBx":
+            elif InstrType == InstructionData.AsBx:
                 i.__setitem__("B", ((code >> 6 + 8) & 0x3FFFF) - 131071)
+                
             li.append(i)
         return li
 
@@ -132,19 +133,10 @@ class Deserializer:
         c.__setitem__("Constants", self.DecodeConstants())
         c.__setitem__("Prototypes", self.DecodePrototypes())
 
-        for Idx in range(len(c["Instructions"])): # Constant Refs.
+        for Idx in range(len(c["Instructions"])): # Setup References
             Instt = c["Instructions"][Idx]
-            Opco = Instt["Opcode"]
 
-            c["ConstantRef"].append({})
-
-            if (OPMODE[Opco]["B"] == "OpArgK" and Instt["B"] >= 256):
-                c["ConstantRef"][Idx]["B"] = c["Instructions"][Idx]["Chunk"]["Constants"][c["Instructions"][Idx]["B"] - 256]
-
-            if (OPMODE[Opco]["C"] == "OpArgK" and c["Instructions"][Idx]["C"] >= 256):
-                c["ConstantRef"][Idx]["C"] = c["Constants"][Instt["C"] - 256]
-                if (c["Constants"][Instt["C"] - 256]["Data"] == None and (Instt["Opcode"] == 9 or Instt["Opcode"] == 23)):
-                    c["ConstantRef"][Idx]["C"] = None
+            Instt.SetupReferences()
 
 
 

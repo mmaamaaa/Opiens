@@ -1,7 +1,7 @@
 
 
 from Utils import *
-from Obfuscator.Vm.IR.Enums import OPNUM
+from Obfuscator.Vm.IR.Enums import Opcode
 
 import struct
 
@@ -42,27 +42,35 @@ class Serializer:
 
         self.WriteInt32(SizeI)
         for Idx in range(0, SizeI):
-
             instr = Chunk["Instructions"][Idx]
+
+
+            # Write extra information for the instruction -TODO: Implement this
+            instr.SecondEnum = 0
+            instr.MutationInfo = 0
+            instr.EqInfo = 0
+            instr.TypeInfo = 0
+
 
             Data1 = 0
             Data2 = 0
+
+            Data1 = Utils.WriteBits(self.Settings["Registers"]["Inst"], instr)
             
-            if instr.Type == "ABC":
-                pass
-                # Implement bit shuffling
-            elif instr.Type == "ABx":
-                # Implement bit shuffling
-                pass
-            elif instr.Type == "AsBx":
-                # Implement bit shuffling
-                pass
+            if instr["Type"] == "ABx":
+                Data2 = Utils.WriteBits(self.Settings["Registers"]["Bx"], instr)
+
+            elif instr["Type"] == "ABC":
+                Data2 = Utils.WriteBits(self.Settings["Registers"]["BC"], instr)
+
+            elif instr["Type"] == "AsBx":
+                instr.B += 1073741824 # Dont forget to remove this in the future
+                Data2 = Utils.WriteBits(self.Settings["Registers"]["sBx"], instr)
 
 
-            print(Data1)
-            print(Data2)
+            #print(Data1)
+            #print(Data2)
 
-            #self.WriteByte(instr.Opcode) # Implement opcode shuffling
             self.WriteInt32(Data1)
             self.WriteInt32(Data2)
 
@@ -100,8 +108,9 @@ class Serializer:
 
     
     def WriteChunk(self, Chunk):
-        self.WriteByte(Chunk.UpvalCount)
+        self.WriteByte(Chunk.UpvalCount) # idk why
         self.WriteByte(Chunk.ParameterCount)
+        self.WriteByte(Chunk.VarargCount)
         self.WriteConstants(Chunk)
         self.WriteInstructions(Chunk)
         self.WritePrototypes(Chunk)

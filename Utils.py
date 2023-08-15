@@ -25,9 +25,28 @@ class Utils:
             p = p * 2
         return c
 
-    def ShuffleArray(array):
+    def ShuffleArray(array, SHUFFLE = True):
+        if SHUFFLE == False: return array
         for i in range(len(array)):
             j = random.randint(0, len(array) - 1)
             array[i], array[j] = array[j], array[i]
         return array
+
+    def AssignBits(Arr):
+        Ret = {}
+        Len = 0
+        for Idx in range(len(Arr)):
+            v = Arr[Idx]
+            Ret[v["Name"]] = [Len, Len + v["Length"] - 1]
+            Len += v["Length"]
+        return Ret
+
+    def WriteBits(Arr, Vals):
+        Int32 = 0
+        for K in Arr:
+            aaa = Vals.__getitem__(K)
+            if aaa != None:
+                Int32 |= (aaa << Arr[K][0])
+
+        return Int32
         

@@ -63,4 +63,4 @@ if __name__ == '__main__':
     with open("output.lua", 'w') as f:
         f.write(OutSource)
         f.close()
-    print(OutSource)
+    #print(OutSource)
